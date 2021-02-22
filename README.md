@@ -31,14 +31,13 @@ The script are written in Python 3 and need the following modules :
 
 2. Clone this GitHub repository:
 ```
-$ git clone 
-$ cd 
+$ git clone https://github.com/rversin/MD-TM_tools.git
 ```
 
 3. Create conda environment:
 ```
-$ conda env create -f ___
-$ conda activate __
+$ conda env create -f MD-TM_tools.yml
+$ conda activate MD-TM_tools
 ```
 
 ## Usage
