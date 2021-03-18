@@ -148,6 +148,33 @@ def get_inertia_axis(COOR,eigen_index=0):
     # reverse order cause argsort sorts out in crescent order
     index_eigenvalues_sorted.reverse()
     # return the wanted eigenvector (generally the one of greatest eigen value)
+    # print(eigenvectors[:,index_eigenvalues_sorted[eigen_index]])
+    return eigenvectors[:,index_eigenvalues_sorted[eigen_index]]
+
+
+def get_var_cov_axis(COOR, eigen_index=0):
+    """This function computes the variance covariance matrix of a set of atoms,
+    and returns the main axis of the helix.
+    """
+    X = np.transpose(np.array(COOR))
+
+    Y = np.zeros(shape=(3,3))
+    for i in range(3):
+        for j in range(3):
+            l, c = 0, 1
+            if j == i:
+                c = 0
+            Y[i][j] = np.cov(np.array(X[i]), np.array(X[j]))[l][c]
+
+    # calculate the eigen values and vectors
+    eigenvalues = np.linalg.eig(Y)[0]
+    eigenvectors = np.linalg.eig(Y)[1]
+    # sort out eigenvalues
+    index_eigenvalues_sorted = list(np.argsort(eigenvalues))
+    # reverse order cause argsort sorts out in crescent order
+    index_eigenvalues_sorted.reverse()
+    # return the wanted eigenvector (generally the one of greatest eigen value)
+    # print(eigenvectors[:,index_eigenvalues_sorted[eigen_index]])
     return eigenvectors[:,index_eigenvalues_sorted[eigen_index]]
 
 
@@ -167,6 +194,7 @@ def get_helix_axis(pept, scaling=20):
 
     # compute the helix axis
     Haxis = get_inertia_axis(HCOOR)
+    # Haxis = get_var_cov_axis(HCOOR)
     # get center of mass
     HCOM = pept[RES_BEGIN:RES_END+1].center_of_mass()
     # get the vector COM-lastCA
