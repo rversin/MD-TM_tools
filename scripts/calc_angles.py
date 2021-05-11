@@ -1,3 +1,4 @@
+
 """
 
 This script reads a structure file (pdb or gro file) and a gromacs trajectory file
@@ -158,13 +159,7 @@ def get_var_cov_axis(COOR, eigen_index=0):
     """
     X = np.transpose(np.array(COOR))
 
-    Y = np.zeros(shape=(3,3))
-    for i in range(3):
-        for j in range(3):
-            l, c = 0, 1
-            if j == i:
-                c = 0
-            Y[i][j] = np.cov(np.array(X[i]), np.array(X[j]))[l][c]
+    Y = np.cov(X)
 
     # calculate the eigen values and vectors
     eigenvalues = np.linalg.eig(Y)[0]
